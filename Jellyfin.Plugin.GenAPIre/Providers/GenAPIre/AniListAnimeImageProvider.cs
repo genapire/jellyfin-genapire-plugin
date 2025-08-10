@@ -1,0 +1,76 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Net.Http;
+using MediaBrowser.Controller.Entities;
+using MediaBrowser.Controller.Entities.TV;
+using MediaBrowser.Controller.Entities.Movies;
+using MediaBrowser.Controller.Providers;
+using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.Providers;
+
+namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
+{
+    public class AniListAnimeImageProvider : IRemoteImageProvider
+    {
+        private readonly AniListApi _aniListApi;
+        public AniListAnimeImageProvider()
+        {
+            _aniListApi = new AniListApi();
+        }
+
+        public string Name => "GenAPIre";
+
+        public bool Supports(BaseItem item) => item is Series || item is Season || item is Movie;
+
+        public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
+        {
+            return [ImageType.Primary, ImageType.Backdrop];
+        }
+
+        public Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
+        {
+            var seriesId = item.GetProviderId(ProviderNames.GenAPIre);
+            return GetImages(seriesId, cancellationToken);
+        }
+
+        public async Task<IEnumerable<RemoteImageInfo>> GetImages(string aid, CancellationToken cancellationToken)
+        {
+            var list = new List<RemoteImageInfo>();
+
+            if (!string.IsNullOrEmpty(aid))
+            {
+                Media media = await _aniListApi.GetAnime(aid, cancellationToken).ConfigureAwait(false);
+                if (media is not null)
+                {
+                    if (media.GetImageUrl() is not null)
+                    {
+                        list.Add(new RemoteImageInfo
+                        {
+                            ProviderName = Name,
+                            Type = ImageType.Primary,
+                            Url = media.GetImageUrl()
+                        });
+                    }
+
+                    if (media.bannerImage is not null)
+                    {
+                        list.Add(new RemoteImageInfo
+                        {
+                            ProviderName = Name,
+                            Type = ImageType.Backdrop,
+                            Url = media.bannerImage
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public async Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
+        {
+            var httpClient = Plugin.Instance.GetHttpClient();
+            return await httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
+        }
+    }
+}
