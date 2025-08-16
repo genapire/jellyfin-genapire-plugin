@@ -58,11 +58,19 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
                if (genres != null && genres.Count > 0)
                {
-                   result.Item = new MusicAlbum();
+
+                   if (result.Item == null)
+                       result.Item = new MusicAlbum();
+
+                   result.Item.Name = album;
+
+                   if (info.AlbumArtists != null)
+                       result.Item.AlbumArtists = info.AlbumArtists;
 
                    result.Item.Genres = genres.ToArray();
                    result.HasMetadata = true;
-
+                   result.Item.ProviderIds = info.ProviderIds;
+                   result.Item.Path = info.Path;
 
                    _logger.LogInformation($"GenAPIreProvider: Pobrano gatunki dla albumu '{album}' artysty '{artist}': {string.Join(", ", genres)}");
                } else {
