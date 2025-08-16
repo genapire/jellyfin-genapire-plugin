@@ -1,7 +1,7 @@
 name: "GenAPIre"
 guid: "12345678-90ab-cdef-1234-567890abcdef"
 version: 1
-targetAbi: "10.10.6.0"
+targetAbi: "10.10.7.0"
 framework: "net8.0"
 owner: "jellyfin"
 overview: "GenAPIre metadata provider"

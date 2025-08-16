@@ -35,7 +35,7 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
        public string Name => "GenAPIre";
 
        /// <inheritdoc />
-       public int Order => 10; // numer kolejności providera, im niższy tym ważniejszy (MusicBrainz ma 0)
+       public int Order => 10;
 
        public async Task<MetadataResult<MusicAlbum>> GetMetadata(AlbumInfo info, CancellationToken cancellationToken)
        {
@@ -48,7 +48,7 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
                 if (string.IsNullOrWhiteSpace(album) || string.IsNullOrWhiteSpace(artist))
                 {
-                    _logger.LogWarning($"GenAPIreProvider: brak nazwy albumu '{album}' lub artysty '{artist}', pomijam pobieranie.");
+                    _logger.LogWarning($"GenAPIreProvider: Missing album '{album}' or artist '{artist}', skipping.");
                     return result;
                 }
 
@@ -68,18 +68,18 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
                        result.Item.AlbumArtists = info.AlbumArtists;
 
                    result.Item.Genres = genres.ToArray();
-                   result.HasMetadata = true;
-                   result.Item.ProviderIds = info.ProviderIds;
+                   result.Item.SetProviderId("GenAPIre", $"{album}-{artist}");
                    result.Item.Path = info.Path;
+                   result.HasMetadata = true;
 
-                   _logger.LogInformation($"GenAPIreProvider: Pobrano gatunki dla albumu '{album}' artysty '{artist}': {string.Join(", ", genres)}");
+                   _logger.LogDebug($"GenAPIreProvider: Downloaded genres for album: '{album}' and artist '{artist}': {string.Join(", ", genres)}");
                } else {
-                _logger.LogInformation($"GenAPIreProvider: Brakuje gatunkow dla albumu '{album}' artysty '{artist}'");
+                   _logger.LogDebug($"GenAPIreProvider: Missing genres for album: '{album}' and artist '{artist}'");
                }
            }
            catch (Exception ex)
            {
-               _logger.LogError(ex, $"GenAPIreProvider: Błąd pobierania gatunków dla albumu.");
+               _logger.LogError(ex, $"GenAPIreProvider: Failed to load genres");
            }
 
            return result;
