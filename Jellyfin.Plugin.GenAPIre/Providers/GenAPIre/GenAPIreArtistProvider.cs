@@ -59,9 +59,9 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
                    result.Item.Name = artistName;
                    result.Item.Genres = genres.ToArray();
-//                   result.Item.ProviderIds = info.ProviderIds;
-                   result.Item.SetProviderId("GenAPIre", artistName);
-//                   result.Item.SetProviderId(MetadataProvider.Custom, $"genapire-{artistName}");
+                   result.Item.ProviderIds = info.ProviderIds;
+//                   result.Item.SetProviderId("GenAPIre", artistName);
+                   result.Item.SetProviderId(MetadataProvider.Custom, $"genapire-{artistName}");
 
                    result.Item.Path = info.Path;
                    result.HasMetadata = true;
@@ -80,19 +80,12 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
         public Task<IEnumerable<RemoteSearchResult>> GetSearchResults(ArtistInfo info, CancellationToken cancellationToken)
         {
-            // Opcjonalnie implementacja wyszukiwania
             return Task.FromResult(Enumerable.Empty<RemoteSearchResult>());
         }
 
         public Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-
-        private class ArtistDataResponse
-        {
-            public List<string> Genres { get; set; }
-            // Dodaj inne pola odpowiednio, jeśli API zwraca np. biography, images, itp.
         }
     }
 }

@@ -68,7 +68,9 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
                        result.Item.AlbumArtists = info.AlbumArtists;
 
                    result.Item.Genres = genres.ToArray();
-                   result.Item.SetProviderId("GenAPIre", $"{album}-{artist}");
+                   result.Item.ProviderIds = info.ProviderIds;
+//                   result.Item.SetProviderId("GenAPIre", $"{album}-{artist}");
+                   result.Item.SetProviderId(MetadataProvider.Custom, $"genapire-{album}-{artist}");
                    result.Item.Path = info.Path;
                    result.HasMetadata = true;
 
@@ -87,7 +89,6 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
        public Task<IEnumerable<RemoteSearchResult>> GetSearchResults(AlbumInfo info, CancellationToken cancellationToken)
        {
-           // (Opcjonalnie) zaimplementuj jeśli chcesz obsługiwać wyszukiwanie albumów przez API
            return Task.FromResult(Enumerable.Empty<RemoteSearchResult>());
        }
 
