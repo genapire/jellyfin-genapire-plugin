@@ -20,20 +20,20 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 {
     public class GenAPIreArtistProvider : IRemoteMetadataProvider<MusicArtist, ArtistInfo>, IHasOrder
     {
-       private readonly ILogger<GenAPIreArtistProvider> _logger;
-       private readonly GenAPIreApiService _apiService;
+        private readonly ILogger<GenAPIreArtistProvider> _logger;
+        private readonly GenAPIreApiService _apiService;
 
-       public GenAPIreArtistProvider(ILogger<GenAPIreArtistProvider> logger)
-       {
-           _logger = logger;
-           _apiService = new GenAPIreApiService();
-       }
+        public GenAPIreArtistProvider(ILogger<GenAPIreArtistProvider> logger)
+        {
+            _logger = logger;
+            _apiService = new GenAPIreApiService();
+        }
 
-       /// <inheritdoc />
-       public string Name => "GenAPIre";
+        /// <inheritdoc />
+        public string Name => "GenAPIre";
 
-       /// <inheritdoc />
-       public int Order => 10;
+        /// <inheritdoc />
+        public int Order => 10;
 
 
         public async Task<MetadataResult<MusicArtist>> GetMetadata(ArtistInfo info, CancellationToken cancellationToken)
@@ -54,19 +54,19 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
                 if (genres != null)
                 {
 
-                   if (result.Item == null)
-                       result.Item = new MusicArtist();
+                    if (result.Item == null)
+                        result.Item = new MusicArtist();
 
-                   result.Item.Name = artistName;
-                   result.Item.Genres = genres.ToArray();
-                   result.Item.ProviderIds = info.ProviderIds;
-//                   result.Item.SetProviderId("GenAPIre", artistName);
-                   result.Item.SetProviderId(MetadataProvider.Custom, $"genapire-{artistName}");
+                    result.Item.Name = artistName;
+                    result.Item.Genres = genres.ToArray();
+                    result.Item.ProviderIds = info.ProviderIds;
+                    //                   result.Item.SetProviderId("GenAPIre", artistName);
+                    result.Item.SetProviderId(MetadataProvider.Custom, $"genapire-{artistName}");
 
-                   result.Item.Path = info.Path;
-                   result.HasMetadata = true;
+                    result.Item.Path = info.Path;
+                    result.HasMetadata = true;
 
-                  _logger.LogDebug($"GenAPIreArtistProvider: Downloaded genres for artist '{artistName}': {string.Join(", ", genres)}");
+                    _logger.LogDebug($"GenAPIreArtistProvider: Downloaded genres for artist '{artistName}': {string.Join(", ", genres)}");
                 }
             }
             catch (Exception ex)

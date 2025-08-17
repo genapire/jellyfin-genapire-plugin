@@ -2,8 +2,8 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
-    <title>GenAPIre</title>
+  <meta charset="utf-8" />
+  <title>GenAPIre</title>
 </head>
 
 <body>
@@ -14,92 +14,92 @@
 <div id="genapireConfigurationPage" data-role="page"
      class="page type-interior pluginConfigurationPage genapireConfigurationPage">
 
-    <!-- The main content area -->
-    <div data-role="main" class="ui-content">
-        <div class="content-primary">
-            <h1 class="pageTitle">GenAPIre</h1>
+  <!-- The main content area -->
+  <div data-role="main" class="ui-content">
+    <div class="content-primary">
+      <h1 class="pageTitle">GenAPIre</h1>
 
-            <!-- The configuration form -->
-            <form class="genapire-config-form">
-                <div class="formSection">
-                    <h3 class="formSectionTitle">API Settings</h3>
-                    <div class="formInstructions">
-                        Configure the connection to your self-hosted GenAPIre backend.
-                    </div>
+      <!-- The configuration form -->
+      <form class="genapire-config-form">
+        <div class="formSection">
+          <h3 class="formSectionTitle">API Settings</h3>
+          <div class="formInstructions">
+            Configure the connection to your self-hosted GenAPIre backend.
+          </div>
 
-                    <!-- Input for Backend URL -->
-                    <div class="inputContainer">
-                        <label class="inputLabel" for="backendUrl">Backend URL</label>
-                        <input type="url" id="backendUrl" name="backendUrl" class="textfield"
-                               placeholder="https://genapire.online" required />
-                        <div class="fieldDescription">
-                            Enter the full base URL of your GenAPIre backend (e.g., http://127.0.0.1:8000).
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Save button -->
-                <div>
-                    <button type="submit" class="button-submit block">
-                        <span>Save</span>
-                    </button>
-                </div>
-            </form>
+          <!-- Input for Backend URL -->
+          <div class="inputContainer">
+            <label class="inputLabel" for="backendUrl">Backend URL</label>
+            <input type="url" id="backendUrl" name="backendUrl" class="textfield"
+                   placeholder="https://genapire.online" required />
+            <div class="fieldDescription">
+              Enter the full base URL of your GenAPIre backend (e.g., http://127.0.0.1:8000).
+            </div>
+          </div>
         </div>
+
+        <!-- Save button -->
+        <div>
+          <button type="submit" class="button-submit block">
+            <span>Save</span>
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <!--
-        CRITICAL: This script provides the ApiClient and Dashboard objects.
-        It must be included for the page to work.
-    -->
-    <script type="text/javascript" src="/web/components/plugin.js"></script>
+  <!--
+      CRITICAL: This script provides the ApiClient and Dashboard objects.
+      It must be included for the page to work.
+  -->
+  <script type="text/javascript" src="/web/components/plugin.js"></script>
 
-    <!-- Your page's custom script -->
-    <script>
-        (function () {
-            // The unique GUID for your plugin.
-            const pluginId = '12345678-90ab-cdef-1234-567890abcdef';
+  <!-- Your page's custom script -->
+  <script>
+    (function() {
+      // The unique GUID for your plugin.
+      const pluginId = "12345678-90ab-cdef-1234-567890abcdef";
 
-            // Select the page container using its unique class.
-            const page = document.querySelector('.genapireConfigurationPage');
+      // Select the page container using its unique class.
+      const page = document.querySelector(".genapireConfigurationPage");
 
-            // Function to load configuration from the server.
-            function loadConfig() {
-                Dashboard.showLoadingMsg();
-                ApiClient.getPluginConfiguration(pluginId).then((config) => {
-                    page.querySelector('#backendUrl').value = config.BackendUrl || '';
-                    Dashboard.hideLoadingMsg();
-                });
-            }
+      // Function to load configuration from the server.
+      function loadConfig() {
+        Dashboard.showLoadingMsg();
+        ApiClient.getPluginConfiguration(pluginId).then((config) => {
+          page.querySelector("#backendUrl").value = config.BackendUrl || "";
+          Dashboard.hideLoadingMsg();
+        });
+      }
 
-            // Function to save configuration to the server.
-            function saveConfig(form) {
-                Dashboard.showLoadingMsg();
-                const newConfig = {
-                    BackendUrl: form.querySelector('#backendUrl').value
-                };
-                ApiClient.updatePluginConfiguration(pluginId, newConfig).then((result) => {
-                    Dashboard.processPluginConfigurationUpdateResult(result);
-                });
-            }
+      // Function to save configuration to the server.
+      function saveConfig(form) {
+        Dashboard.showLoadingMsg();
+        const newConfig = {
+          BackendUrl: form.querySelector("#backendUrl").value
+        };
+        ApiClient.updatePluginConfiguration(pluginId, newConfig).then((result) => {
+          Dashboard.processPluginConfigurationUpdateResult(result);
+        });
+      }
 
-            // Listen for the 'pageshow' event on this specific page.
-            page.addEventListener('pageshow', function () {
-                console.log('GenAPIre config page initialized.');
+      // Listen for the 'pageshow' event on this specific page.
+      page.addEventListener("pageshow", function() {
+        console.log("GenAPIre config page initialized.");
 
-                // Find the form and attach the submit listener.
-                const form = this.querySelector('.genapire-config-form');
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    saveConfig(this);
-                    return false;
-                });
+        // Find the form and attach the submit listener.
+        const form = this.querySelector(".genapire-config-form");
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          saveConfig(this);
+          return false;
+        });
 
-                // Load the initial data.
-                loadConfig();
-            });
-        })();
-    </script>
+        // Load the initial data.
+        loadConfig();
+      });
+    })();
+  </script>
 </div>
 </body>
 
