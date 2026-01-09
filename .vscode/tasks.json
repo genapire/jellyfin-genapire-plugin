@@ -72,5 +72,20 @@
         ]
       }
     },
+    {
+      // Run unit tests
+      "label": "test",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/${config:pluginName}.sln"
+      ],
+      "group": "test",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": "$msCompile"
+    },
   ]
 }
