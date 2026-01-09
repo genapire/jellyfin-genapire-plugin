@@ -35,7 +35,7 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
        public string Name => "GenAPIre";
 
        /// <inheritdoc />
-       public int Order => 10;
+       public int Order => 0;
 
        public async Task<MetadataResult<MusicAlbum>> GetMetadata(AlbumInfo info, CancellationToken cancellationToken)
        {

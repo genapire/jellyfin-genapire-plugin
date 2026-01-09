@@ -310,6 +310,6 @@ public class GenAPIreProviderTests
     public void Provider_HasCorrectOrder()
     {
         // Assert
-        Assert.Equal(10, _provider.Order);
+        Assert.Equal(0, _provider.Order);
     }
 }
