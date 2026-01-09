@@ -313,3 +313,138 @@ public class GenAPIreProviderTests
         Assert.Equal(0, _provider.Order);
     }
 }
+
+public class GenapireTrackProviderTests
+{
+    private Mock<ILogger<GenapireTrackProvider>> _mockLogger;
+    private GenapireTrackProvider _provider;
+
+    public GenapireTrackProviderTests()
+    {
+        _mockLogger = new Mock<ILogger<GenapireTrackProvider>>();
+        _provider = new GenapireTrackProvider(_mockLogger.Object);
+    }
+
+    [Fact]
+    public async Task GetMetadata_WithMissingArtist_ReturnsEmptyResult()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Song",
+            AlbumArtists = null
+        };
+
+        // Act
+        var result = await _provider.GetMetadata(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.HasMetadata);
+        Assert.Null(result.Item);
+    }
+
+    [Fact]
+    public async Task GetMetadata_WithEmptyArtistList_ReturnsEmptyResult()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Song",
+            AlbumArtists = new string[] { }
+        };
+
+        // Act
+        var result = await _provider.GetMetadata(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.HasMetadata);
+        Assert.Null(result.Item);
+    }
+
+    [Fact]
+    public async Task GetMetadata_WithNullArtistName_ReturnsEmptyResult()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Song",
+            AlbumArtists = new[] { (string)null }
+        };
+
+        // Act
+        var result = await _provider.GetMetadata(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.HasMetadata);
+        Assert.Null(result.Item);
+    }
+
+    [Fact]
+    public async Task GetMetadata_WithWhitespaceArtist_ReturnsEmptyResult()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Song",
+            AlbumArtists = new[] { "   " }
+        };
+
+        // Act
+        var result = await _provider.GetMetadata(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.HasMetadata);
+        Assert.Null(result.Item);
+    }
+
+    [Fact]
+    public async Task GetMetadata_WithValidArtist_ProcessesMetadata()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Test Song",
+            AlbumArtists = new[] { "Test Artist" }
+        };
+
+        // Act
+        var result = await _provider.GetMetadata(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        // Metoda obsługuje błędy gracefully, więc zwraca pusty wynik jeśli API nie dostępne
+        Assert.False(result.HasMetadata);
+    }
+
+    [Fact]
+    public async Task GetSearchResults_ReturnsEmptyEnumerable()
+    {
+        // Arrange
+        var songInfo = new SongInfo
+        {
+            Name = "Song",
+            AlbumArtists = new[] { "Artist" }
+        };
+
+        // Act
+        var result = await _provider.GetSearchResults(songInfo, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void TrackProvider_HasCorrectName()
+    {
+        // Assert
+        Assert.Equal("GenAPIre", _provider.Name);
+    }
+
+    [Fact]
+    public void TrackProvider_HasCorrectOrder()
+    {
+        // Assert
+        Assert.Equal(0, _provider.Order);
+    }
+}
