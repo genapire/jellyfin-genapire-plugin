@@ -1,5 +1,2 @@
-bin/
-obj/
-.vs/
-.idea/
-artifacts
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*
