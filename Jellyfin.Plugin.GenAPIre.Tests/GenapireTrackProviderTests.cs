@@ -11,13 +11,11 @@ namespace Jellyfin.Plugin.GenAPIre.Tests;
 
 public class GenapireTrackProviderTests
 {
-    private Mock<ILogger<GenapireTrackProvider>> _mockLogger;
     private GenapireTrackProvider _provider;
 
     public GenapireTrackProviderTests()
     {
-        _mockLogger = new Mock<ILogger<GenapireTrackProvider>>();
-        _provider = new GenapireTrackProvider(_mockLogger.Object);
+        _provider = new GenapireTrackProvider();
     }
 
     [Fact]
@@ -63,7 +61,7 @@ public class GenapireTrackProviderTests
         var songInfo = new SongInfo
         {
             Name = "Song",
-            AlbumArtists = new[] { (string)null }
+            AlbumArtists = new List<string>()
         };
 
         // Act

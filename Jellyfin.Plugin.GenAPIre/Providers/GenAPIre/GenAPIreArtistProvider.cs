@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,7 @@ using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
+using System.Composition;
 
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Extensions;
@@ -18,11 +21,28 @@ using MediaBrowser.Model.IO;
 
 namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 {
+    /// <summary>
+    /// GenAPIre Artist metadata provider.
+    /// </summary>
+    [Export(typeof(IRemoteMetadataProvider<MusicArtist, ArtistInfo>))]
     public class GenAPIreArtistProvider : IRemoteMetadataProvider<MusicArtist, ArtistInfo>, IHasOrder
     {
-       private readonly ILogger<GenAPIreArtistProvider> _logger;
+       private readonly ILogger<GenAPIreArtistProvider>? _logger;
        private readonly GenAPIreApiService _apiService;
 
+       /// <summary>
+       /// Initializes a new instance of the <see cref="GenAPIreArtistProvider"/> class.
+       /// </summary>
+       public GenAPIreArtistProvider()
+       {
+           _logger = null;
+           _apiService = new GenAPIreApiService();
+       }
+
+       /// <summary>
+       /// Initializes a new instance of the <see cref="GenAPIreArtistProvider"/> class.
+       /// </summary>
+       /// <param name="logger">The logger.</param>
        public GenAPIreArtistProvider(ILogger<GenAPIreArtistProvider> logger)
        {
            _logger = logger;
@@ -45,7 +65,7 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
                 var artistName = info.Name;
                 if (string.IsNullOrWhiteSpace(artistName))
                 {
-                    _logger.LogWarning("GenAPIreArtistProvider: Artist name is empty, skipping.");
+                    _logger?.LogWarning("GenAPIreArtistProvider: Artist name is empty, skipping.");
                     return result;
                 }
 
@@ -66,12 +86,12 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
                    result.Item.Path = info.Path;
                    result.HasMetadata = true;
 
-                  _logger.LogDebug($"GenAPIreArtistProvider: Downloaded genres for artist '{artistName}': {string.Join(", ", genres)}");
+                  _logger?.LogDebug($"GenAPIreArtistProvider: Downloaded genres for artist '{artistName}': {string.Join(", ", genres)}");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "GenAPIreArtistProvider: Error fetching genres");
+                _logger?.LogError(ex, "GenAPIreArtistProvider: Error fetching genres");
             }
 
             return result;
@@ -85,7 +105,7 @@ namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 
         public Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<HttpResponseMessage>(null!);
         }
     }
 }

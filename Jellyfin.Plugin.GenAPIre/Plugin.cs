@@ -9,24 +9,45 @@ using MediaBrowser.Common.Net;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using System.Globalization;
+using System.Composition;
 
 namespace Jellyfin.Plugin.GenAPIre
 {
+    /// <summary>
+    /// GenAPIre plugin.
+    /// </summary>
+    [Export(typeof(IPlugin))]
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
-        IHttpClientFactory _httpClientFactory;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plugin"/> class.
+        /// </summary>
+        public Plugin()
+            : base(null, null)
+        {
+            Instance = this;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plugin"/> class.
+        /// </summary>
+        /// <param name="applicationPaths">The application paths.</param>
+        /// <param name="xmlSerializer">The XML serializer.</param>
         public Plugin(
             IApplicationPaths applicationPaths,
-            IXmlSerializer xmlSerializer,
-            IHttpClientFactory httpClientFactory)
+            IXmlSerializer xmlSerializer)
             : base(applicationPaths, xmlSerializer)
         {
             Instance = this;
-            _httpClientFactory = httpClientFactory;
         }
 
-        public HttpClient GetHttpClient() {
-            var httpClient = _httpClientFactory.CreateClient(NamedClient.Default);
+        /// <summary>
+        /// Gets the HTTP client.
+        /// </summary>
+        /// <returns>An HTTP client with user agent set.</returns>
+        public HttpClient GetHttpClient()
+        {
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(Name, Version.ToString()));
 
             return httpClient;
@@ -38,6 +59,9 @@ namespace Jellyfin.Plugin.GenAPIre
         /// <inheritdoc />
         public override Guid Id => Guid.Parse(Constants.PluginGuid);
 
+        /// <summary>
+        /// Gets the plugin instance.
+        /// </summary>
         public static Plugin Instance { get; private set; }
 
         /// <inheritdoc />

@@ -11,13 +11,11 @@ namespace Jellyfin.Plugin.GenAPIre.Tests;
 
 public class GenAPIreProviderTests
 {
-    private Mock<ILogger<GenAPIreProvider>> _mockLogger;
     private GenAPIreProvider _provider;
 
     public GenAPIreProviderTests()
     {
-        _mockLogger = new Mock<ILogger<GenAPIreProvider>>();
-        _provider = new GenAPIreProvider(_mockLogger.Object);
+        _provider = new GenAPIreProvider();
     }
 
     [Fact]
@@ -45,7 +43,7 @@ public class GenAPIreProviderTests
         var albumInfo = new AlbumInfo
         {
             Name = "Album",
-            AlbumArtists = null
+            AlbumArtists = new List<string>()
         };
 
         // Act
