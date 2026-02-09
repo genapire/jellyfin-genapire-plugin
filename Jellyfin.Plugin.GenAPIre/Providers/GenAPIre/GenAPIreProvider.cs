@@ -12,21 +12,12 @@ using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
-using System.Composition;
-
-using MediaBrowser.Common.Configuration;
-using MediaBrowser.Common.Extensions;
-using MediaBrowser.Common.Net;
-using MediaBrowser.Controller.Configuration;
-using MediaBrowser.Model.IO;
-using System.Composition;
 
 namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 {
   /// <summary>
   /// GenAPIre Album metadata provider.
   /// </summary>
-  [Export(typeof(IRemoteMetadataProvider<MusicAlbum, AlbumInfo>))]
   public class GenAPIreProvider : IRemoteMetadataProvider<MusicAlbum, AlbumInfo>, IHasOrder
    {
        private readonly ILogger<GenAPIreProvider>? _logger;
