@@ -5,29 +5,17 @@ using System.Net.Http.Headers;
 using Jellyfin.Plugin.GenAPIre.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
-using MediaBrowser.Common.Net;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using System.Globalization;
-using System.Composition;
 
 namespace Jellyfin.Plugin.GenAPIre
 {
     /// <summary>
     /// GenAPIre plugin.
     /// </summary>
-    [Export(typeof(IPlugin))]
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Plugin"/> class.
-        /// </summary>
-        public Plugin()
-            : base(null, null)
-        {
-            Instance = this;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Plugin"/> class.
         /// </summary>

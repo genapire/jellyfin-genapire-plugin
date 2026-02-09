@@ -11,14 +11,12 @@ using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
-using System.Composition;
 
 namespace Jellyfin.Plugin.GenAPIre.Providers.GenAPIre
 {
     /// <summary>
     /// GenAPIre Track metadata provider.
     /// </summary>
-    [Export(typeof(IRemoteMetadataProvider<Audio, SongInfo>))]
     public class GenapireTrackProvider : IRemoteMetadataProvider<Audio, SongInfo>, IHasOrder
     {
         private readonly ILogger<GenapireTrackProvider>? _logger;
