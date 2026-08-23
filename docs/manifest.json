@@ -8,6 +8,14 @@
         "category": "Metadata",
         "versions": [
             {
+                "version": "1.0.1.0",
+                "changelog": "- Switch default backend URL to https://genapire.mobulum.com\n- Update NuGet dependencies (Jellyfin.Controller/Model 10.11.11, xunit 2.9.3, etc.)\n- Add regression test for default backend URL",
+                "targetAbi": "10.11.11.0",
+                "sourceUrl": "https://github.com/genapire/jellyfin-genapire-plugin/releases/download/genapire_1.0.1.0/genapire_1.0.1.0.zip",
+                "checksum": "7e8c3783d4274c7f134e63053f9b49e0",
+                "timestamp": "2026-08-23T16:05:00Z"
+            },
+            {
                 "version": "1.0.0.0",
                 "changelog": "- Updated to .NET 9.0 and Jellyfin 10.11.5",
                 "targetAbi": "10.11.5.0",
