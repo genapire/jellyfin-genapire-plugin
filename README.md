@@ -3,7 +3,7 @@
 
 ## About
 
-This plugin adds the metadata provider for [GenAPIre](https://genapire.online/).
+This plugin adds the metadata provider for [GenAPIre](https://genapire.mobulum.com/).
 
 ## Releasing
 
