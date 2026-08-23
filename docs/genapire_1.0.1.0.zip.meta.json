@@ -1,0 +1,12 @@
+{
+    "category": "Metadata",
+    "changelog": "- Switch default backend URL to https://genapire.mobulum.com\n- Update NuGet dependencies (Jellyfin.Controller/Model 10.11.11, xunit 2.9.3, etc.)\n- Add regression test for default backend URL",
+    "description": "GenAPIre metadata provider\n",
+    "guid": "12345678-90ab-cdef-1234-567890abcdef",
+    "name": "GenAPIre",
+    "overview": "GenAPIre metadata provider",
+    "owner": "jellyfin",
+    "targetAbi": "10.11.11.0",
+    "timestamp": "2026-08-23T16:05:06Z",
+    "version": "1.0.1.0"
+}
