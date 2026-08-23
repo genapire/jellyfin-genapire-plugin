@@ -10,6 +10,6 @@ namespace Jellyfin.Plugin.GenAPIre.Configuration
         /// <summary>
         /// The base URL of the AudioMuse AI backend (include http:// or https://).
         /// </summary>
-        public string BackendUrl { get; set; } = "https://genapire.online";
+        public string BackendUrl { get; set; } = "https://genapire.mobulum.com";
     }
 }
